@@ -7,36 +7,31 @@ using TMPro;
 public class DialogueScript : MonoBehaviour
 {
     public GameObject dialogueWindowPrefab;
-    public TextMeshProUGUI dialogueText;
-    private string computedInfo;
+    private TextMeshProUGUI dialogueText;
 
-    // Start is called before the first frame update
-    void Start()
+    // Call this method to pass in the computed information from another script
+    public void ShowDialogue(string computedInfo)
     {
-        computedInfo = "Your score is: " + Random.Range(0, 100).ToString();
-    }
-
-    public void ShowDialogue()
-    {
+        // Instantiate the dialogue window from prefab
         GameObject dialogueWindow = Instantiate(dialogueWindowPrefab, transform);
 
+        // Find the TextMeshProUGUI component and update the text
         dialogueText = dialogueWindow.GetComponentInChildren<TextMeshProUGUI>();
-        dialogueText.text = computedInfo;
+        if(dialogueText != null)
+            dialogueText.text = computedInfo;
+        else Debug.LogError("DialogueText component not found!");
 
-        // Close button
+        // Optional: Handle the close button (if it exists)
         Button closeButton = dialogueWindow.GetComponentInChildren<Button>();
-        if(closeButton != null)
+        if (closeButton != null)
+        {
             closeButton.onClick.AddListener(() => CloseDialogue(dialogueWindow));
+        }
     }
 
+    // Function to close the dialogue window
     void CloseDialogue(GameObject dialogueWindow)
     {
-        Destroy(dialogueWindow);
+        Destroy(dialogueWindow); // Destroy the dialogue window to close it
     }
-
-    // Update is called once per frame
-    // void Update()
-    // {
-        
-    // }
 }
