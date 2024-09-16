@@ -30,7 +30,7 @@ public class DialogueScript : MonoBehaviour
     }
 
     // Function to close the dialogue window
-    void CloseDialogue(GameObject dialogueWindow)
+    public void CloseDialogue(GameObject dialogueWindow)
     {
         Destroy(dialogueWindow); // Destroy the dialogue window to close it
     }
