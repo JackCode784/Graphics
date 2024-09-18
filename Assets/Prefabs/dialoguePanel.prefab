@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7824754761224350898}
   - component: {fileID: 7885662370024904782}
   - component: {fileID: 7656733389574697148}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: DialoguePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 2688321288185630621}
   - component: {fileID: 1710164488541227451}
   - component: {fileID: 5606514238456097021}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -265,9 +265,9 @@ GameObject:
   - component: {fileID: 6612379858221574880}
   - component: {fileID: 4228145661644334706}
   - component: {fileID: 1751875967353764266}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: CloseButton
-  m_TagString: Untagged
+  m_TagString: Close Button
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -385,7 +385,7 @@ GameObject:
   - component: {fileID: 3162257649117132144}
   - component: {fileID: 2088614468113429398}
   - component: {fileID: 5421572614843400051}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: DialogueText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
