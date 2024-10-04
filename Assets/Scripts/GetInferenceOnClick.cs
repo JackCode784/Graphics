@@ -4,31 +4,31 @@ using Unity.Barracuda;
 using UnityEngine;
 using UnityEngine.UI;
 
-// To be attached to main camera in the Main Level scene
+// Script della Main Camera 
 public class GetInferenceOnClick : MonoBehaviour
 {
-    public NNModel onnxAsset;
-    private DialogueScriptOnClick dialogueScript;
-    private RawImage imageToRecognise;
-    private IWorker worker;
-    private string inference;
-    private readonly string[] classes = {"beach ball", "rugby ball"};
+    public NNModel onnxAsset;                       // rete neurale formato ONNX
+    private DialogueScriptOnClick dialogueScript;   // riferimento allo script per scrivere risultato della predizione
+    private RawImage imageToRecognise;              // immagine su cui fare predizione
+    private IWorker worker;                         // worker per ONNX
+    private string inference;                       // risultato della predizione
+    private readonly string[] classes = {"beach ball", "rugby ball"};   // classi del dataset
 
     public void GetInference(GameObject clickedObject)
     {
-        // Debug.Log("Get Inference called!");  // test
         dialogueScript = GetComponent<DialogueScriptOnClick>();
-        imageToRecognise = clickedObject.GetComponent<RawImage>();
+        imageToRecognise = clickedObject.GetComponent<RawImage>();  // immagine di input è quella clickata
 
+        // Instanziamo la rete neurale in formato ONNX
         try
         {
             using(var worker = onnxAsset.CreateWorker())
             {
                 using(var input = new Tensor((Texture2D)(imageToRecognise.texture), channels: 3))
                 {
-                    var output = worker.Execute(input).PeekOutput();
-                    inference = ComputeClass(output.ToReadOnlyArray());
-                    dialogueScript.ShowDialogue(inference, imageToRecognise);
+                    var output = worker.Execute(input).PeekOutput();            // rete neurale processa l'input
+                    inference = ComputeClass(output.ToReadOnlyArray());         // genera testo della predizione
+                    dialogueScript.ShowDialogue(inference, imageToRecognise);   // crea dialogo per mostrare predizione
                 }
             }
         }
@@ -38,7 +38,8 @@ public class GetInferenceOnClick : MonoBehaviour
         }
     }
 
-        string ComputeClass(float[] nnOutput)
+    // Genera testo della predizione (classe e probabilità)
+    string ComputeClass(float[] nnOutput)
     {
         float maxProb = Mathf.Max(nnOutput);
         int maxIndex = FindMaxIndex(nnOutput);
@@ -47,6 +48,7 @@ public class GetInferenceOnClick : MonoBehaviour
          " with probability " + (maxProb*100).ToString() + "%"; 
     }
 
+    // Trova indice della classe (probabilità massima)
     int FindMaxIndex(float[] arr)
     {
         int maxIdx = 0;

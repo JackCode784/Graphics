@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
+// Script della Main Camera
 public class DetectClickedImage : MonoBehaviour
 {
     // Update is called once per frame
@@ -13,31 +14,33 @@ public class DetectClickedImage : MonoBehaviour
             DetectImage();
     }
 
+    // Da un click su un'immagine ricava l'immagine stessa
+    // La rete neurale farà inferenza su quest'ultima
     void DetectImage()
     {
-        // Check if the mouse is over any UI element
+        // Controlliamo che il mouse sia sopra elementi UI
         PointerEventData pointerData = new PointerEventData(EventSystem.current)
         {
             position = Input.mousePosition
         };
 
-        // Raycast to all UI elements under the mouse
+        // Raycast a tutti gli elementi UI sotto al mouse
         List<RaycastResult> raycastResults = new List<RaycastResult>();
         EventSystem.current.RaycastAll(pointerData, raycastResults);
 
-        // Loop through all results
+        // Loop su tutti i risultati del raycast
         foreach (RaycastResult result in raycastResults)
         {
             GameObject clickedObject = result.gameObject;
          
-            // Exclude close buttons based on their layer
+            // Escludiamo i bottoni (vogliamo solo le immagini)
             if (clickedObject.layer == LayerMask.NameToLayer("Ignore Raycast"))
             {
-                // Debug.Log("Ignored button!");
                 continue;
             }
 
-            // Check if the clicked object has an Image component
+            // Se l'oggetto clickato ha una componente Image o RawImage 
+            // chiamiamo la rete neurale per fare inferenza
             if (clickedObject.GetComponent<Image>() != null || clickedObject.GetComponent<RawImage>() != null)
             {
                 GetComponent<GetInferenceOnClick>().GetInference(clickedObject);

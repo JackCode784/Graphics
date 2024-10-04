@@ -4,29 +4,28 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+// Script della Main Camera
 public class DialogueScriptOnClick : MonoBehaviour
 {
-    public GameObject dialogueWindowPrefab;
-    private TextMeshProUGUI dialogueText;
+    public GameObject dialogueWindowPrefab; // prefab della finestra di dialogo
+    private TextMeshProUGUI dialogueText;   // testo di dialogo
 
     public void ShowDialogue(string modelInference, RawImage imageToRecognise)
     {
-        // Debug.Log("Show Dialogue Called!");  // test
-
-        // Instantiate the dialogue window from prefab
+        // Istanzia la finestra di dialogo se non presente
         if(HasAlreadyDialogueWindow(imageToRecognise.gameObject, "DialoguePanel"))
             return;
 
         GameObject dialogueWindow = Instantiate(dialogueWindowPrefab, imageToRecognise.transform);
-        dialogueWindow.name = "DialoguePanel";  // prevent "(Clone)" text in prefab's name
+        dialogueWindow.name = "DialoguePanel";  // elimina la scritta "(Clone)" nel nome del prefab istanziato
 
-        // Find the TextMeshProUGUI component and update the text
+        // Trova il componente TextMeshProUGUI e lo aggiorna
         dialogueText = dialogueWindow.GetComponentInChildren<TextMeshProUGUI>();
         if(dialogueText != null)
             dialogueText.text = modelInference;
         else Debug.LogError("DialogueText component not found!");
 
-        // Optional: Handle the close button (if it exists)
+        // Pulsante di chiusura dialogo
         Button closeButton = dialogueWindow.GetComponentInChildren<Button>();
         if (closeButton != null)
         {
@@ -34,12 +33,13 @@ public class DialogueScriptOnClick : MonoBehaviour
         }
     }
 
-    // Function to close the dialogue window
+    // Chiudere la finestra di dialogo
     public void CloseDialogue(GameObject dialogueWindow)
     {
-        Destroy(dialogueWindow); // Destroy the dialogue window to close it
+        Destroy(dialogueWindow); // distrugge la finestra di dialogo
     }
 
+    // Controlla se è già stata creata una finestra di dialogo
     bool HasAlreadyDialogueWindow(GameObject parent, string prefabName)
     {
         foreach(Transform child in parent.transform)

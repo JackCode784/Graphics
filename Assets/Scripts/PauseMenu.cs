@@ -3,21 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+// Gestione pulsanti schermata di pausa
 public class PauseMenu : MonoBehaviour
 {
-    private GameObject pauseCanvas;
-    public static bool isPaused = false;
+    private GameObject pauseCanvas;         // oggetto canvas dello schermo di pausa
+    public static bool isPaused = false;    // variabile per indicare se siamo in pausa
 
     // Start is called before the first frame update
     void Start()
     {
         pauseCanvas = GameObject.Find("PauseCanvas");
-        pauseCanvas.SetActive(false);
+        pauseCanvas.SetActive(false);   // all'inizio non siamo in pausa
     }
 
     // Update is called once per frame
     void Update()
     {
+        // Premendo ESC si entra/esce dalla pausa
         if(Input.GetKeyDown(KeyCode.Escape))
         {
             if(isPaused)
@@ -27,7 +29,7 @@ public class PauseMenu : MonoBehaviour
         }
     }
 
-    // PauseGame
+    // Mette in pausa
     public void PauseGame()
     {
         pauseCanvas.SetActive(true);
@@ -35,7 +37,7 @@ public class PauseMenu : MonoBehaviour
         isPaused = true;
     }
 
-    // ResumeGame
+    // Uscire dalla pausa
     public void ResumeGame()
     {
         pauseCanvas.SetActive(false);
@@ -43,7 +45,7 @@ public class PauseMenu : MonoBehaviour
         isPaused = false;
     }
 
-    // BackToMainMenu
+    // Torna al Main Menu
     public void BackToMainMenu()
     {
         Time.timeScale = 1f;
@@ -51,7 +53,7 @@ public class PauseMenu : MonoBehaviour
         isPaused = false;
     }
 
-    // PauseQuit
+    // Chiude il "gioco"
     public void PauseQuit()
     {
         Application.Quit();
