@@ -40,7 +40,7 @@ public class DialogueScriptOnClick : MonoBehaviour
     }
 
     // Controlla se è già stata creata una finestra di dialogo
-    bool HasAlreadyDialogueWindow(GameObject parent, string prefabName)
+    public bool HasAlreadyDialogueWindow(GameObject parent, string prefabName)
     {
         foreach(Transform child in parent.transform)
         {
