@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using System.IO;
 using TMPro;
 
+// Script della Main Camera
 public class ImagesManager : MonoBehaviour
 {
     private string resourceImagesPath = "Datasets/BallsDataset/test/";   // path da cui prendere le immagini
@@ -23,38 +24,38 @@ public class ImagesManager : MonoBehaviour
     // Crea numImages istanze di RawImage sulla ImagesCanvas
     void CreateImages(int numImages)
     {
-        float spacing = 20f; // Horizontal spacing between images
+        float spacing = 20f; // distanza tra immagini adiacenti
 
         RectTransform canvasRect = imagesCanvas.GetComponent<RectTransform>();
-        float canvasWidth = canvasRect.rect.width;
-        float canvasHeight = canvasRect.rect.height;
+        float canvasWidth = canvasRect.rect.width;      // larghezza della canvas
+        float canvasHeight = canvasRect.rect.height;    // altezza della canvas
 
-        // Calculate the total space occupied by all images and the spacing between them
+        // Calcola lo spazio occupato da tutte le immagini tenendo conto della distanza tra esse
         float totalSpacing = spacing * (numImages - 1);
-        float totalImageWidth = Mathf.Min((canvasWidth - totalSpacing) / numImages, canvasHeight * 0.8f); // Image size
-        float totalOccupiedWidth = totalImageWidth * numImages + totalSpacing; // Total width occupied by images and spacing
+        float totalImageWidth = Mathf.Min((canvasWidth - totalSpacing) / numImages, canvasHeight * 0.8f); // dimensione un'immagine
+        float totalOccupiedWidth = totalImageWidth * numImages + totalSpacing; // larghezza complessiva di immagini + spacing
 
-        // Starting y-position for images (centered vertically)
+        // Posizione verticale delle immagini
         float yPos = canvasHeight / 2;
 
-        // Calculate the initial x-position to center all images horizontally
-        float startXPos = -(totalOccupiedWidth / 2) + totalImageWidth / 2; // Start centered on canvas
+        // Posizione orizzontale iniziale (per centrare le immagini)
+        float startXPos = -(totalOccupiedWidth / 2) + totalImageWidth / 2;
 
         for (int i = 0; i < numImages; i++)
         {
-            // Instantiate the RawImage prefab
+            // Istanzia il prefab
             GameObject newImage = Instantiate(rawImagePrefab, imagesCanvas.transform);
             newImage.name = "Picture #" + (i + 1).ToString();
             newImage.GetComponentInChildren<TextMeshProUGUI>().text = newImage.name;
             RectTransform imageRect = newImage.GetComponent<RectTransform>();
 
-            // Set the size of the RawImage as a square (equal width and height)
+            // Rendi l'immagine quadrata
             imageRect.sizeDelta = new Vector2(totalImageWidth, totalImageWidth);
 
-            // Calculate the x-position for each image, leaving space between them
+            // Calcola la posizione x per ogni immagine
             float xPos = startXPos + i * (totalImageWidth + spacing);
 
-            // Set the anchored position of the image in the canvas
+            // Posizione delle anchor
             imageRect.anchoredPosition = new Vector2(xPos, yPos - (canvasHeight / 2));
         }
 
@@ -85,9 +86,9 @@ public class ImagesManager : MonoBehaviour
         // Esclude le estensioni scorrette
         foreach(string imagePath in texturePaths)
             if(validExtensions.Contains(Path.GetExtension(imagePath).ToLower()))
-                {
-                    validImagesPath.Add(resourceImagesPath + Path.GetFileNameWithoutExtension(imagePath));
-                }
+            {
+                validImagesPath.Add(resourceImagesPath + Path.GetFileNameWithoutExtension(imagePath));
+            }
         // Se ci sono meno immagini di quelle che si vuole mostrare
         numImages = Mathf.Min(numImages, validImagesPath.Count);
 

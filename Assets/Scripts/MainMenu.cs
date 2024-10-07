@@ -8,13 +8,13 @@ public class MainMenu : MonoBehaviour
 {
     public void StartGame()
     {
-        // Load main scene by name
+        // Carica la scena principale
         SceneManager.LoadSceneAsync("Main Level");
     }
 
     public void QuitGame()
     {
-        // to do
+        // Ignorata dall'editor
         Application.Quit();
     }
 }
